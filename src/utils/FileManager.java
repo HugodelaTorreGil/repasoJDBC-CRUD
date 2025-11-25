@@ -5,6 +5,9 @@ import java.util.ArrayList;
 
 public class FileManager {
 
+    /*
+    Metodo que recibe la ruta del archivo cvs, lo lee, introduce lo leido en una lista
+     */
     public ArrayList<String> leerCSV(String ruta){
         ArrayList<String> lineas = new ArrayList<>();
 
@@ -21,6 +24,9 @@ public class FileManager {
         return lineas;
     }
 
+    /*
+    Metodo que recibe la ruta del archivo a crear, y las lineas del csv recibido y crea un archivo con esa informacion
+     */
     public void escribirCSV(String ruta, ArrayList<String> listaLineas){
         try(BufferedWriter bw = new BufferedWriter(new FileWriter(ruta))){
             for(String linea : listaLineas){
@@ -33,6 +39,9 @@ public class FileManager {
         }
     }
 
+    /*
+    Metodo que lee un archivo binario y lo guarda en una lista
+     */
     public ArrayList<String> leerDat(String ruta){
         ArrayList<String> lineas = new ArrayList<>();
         try(ObjectInputStream flujoBytesEntrada = new ObjectInputStream(new FileInputStream(ruta)))
@@ -52,6 +61,26 @@ public class FileManager {
         return lineas;
     }
 
-    int id;
+    public void escribirDat(String ruta, ArrayList<String> leerDat){
+        try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(ruta))){
+            for(String linea : leerDat){
+                oos.writeObject(linea);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public void pasarCsvADat(String rutaCSV, String rutaDat){
+        ArrayList<String> listaLineas = leerCSV(rutaCSV);
+        escribirDat(rutaDat, listaLineas);
+    }
+
+    public void pasarDatACsv(String rutaCsv, String rutaDat){
+        ArrayList<String> listaLineas = leerDat(rutaDat);
+        escribirCSV(rutaCsv, listaLineas);
+    }
+
 
 }
