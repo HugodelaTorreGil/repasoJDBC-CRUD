@@ -51,4 +51,6 @@ public class FileManager {
         }
         return lineas;
     }
+
+    int id;
 }
